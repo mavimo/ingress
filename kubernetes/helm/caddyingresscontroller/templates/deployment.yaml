@@ -30,6 +30,9 @@ spec:
 {{- end }}
     spec:
       serviceAccountName: {{ .Values.serviceAccountName }}
+      volumes:
+      - name: tmp
+        emptyDir: {}
       containers:
       - name: {{ .Values.name }}
         image: "{{ .Values.caddyingresscontroller.image.name }}:{{ .Values.caddyingresscontroller.image.tag }}"
@@ -44,6 +47,9 @@ spec:
           # www-data -> 33
           runAsUser: 0
           runAsGroup: 0
+        volumeMounts:
+          - name: tmp
+            mountPath: /tmp
         ports:
           - name: http
             containerPort: 80
